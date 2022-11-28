@@ -41,7 +41,14 @@ parse_git_branch () {
 }
 
 function _omb_theme_PROMPT_COMMAND() {
-  PS1="\[${BOLD}${MAGENTA}\]\u \[$WHITE\]at \[$ORANGE\]\h \[$WHITE\]in \[$GREEN\]\w\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[$RESET\]"
+  if [ -n "$VIRTUAL_ENV" ]
+  then
+    PS1="\[$PURPLE\](venv) ";
+  else
+  	PS1="";
+  fi
+  
+  PS1+="\[$MAGENTA\]\u\[$RESET\]@\[$ORANGE\]\h \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\\[$RESET\]$ \[$RESET\]";
 }
 
 _omb_util_add_prompt_command _omb_theme_PROMPT_COMMAND
